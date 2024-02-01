@@ -217,7 +217,7 @@ namespace :analyze do
       transactions.push(transaction)
     end
 
-    anti_fraud_min_score_to_aprove = 50.0
+    anti_fraud_min_score_to_aprove = AntiFraud::AntiFraudService::MIN_SCORE_TO_APROVE
 
     score_sum = 0
     score_count = 0
