@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16.1-alpine
+    volumes:
+      - nefelibata-postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  api:
+    stdin_open: true
+    tty: true
+    platform: linux/x86_64
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      LAUNCHY_DRY_RUN: "true"
+      BROWSER: /dev/null
+
+volumes:
+  bundle:
+  rails_cache:
+  nefelibata-postgresql:

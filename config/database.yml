@@ -1,0 +1,30 @@
+# Postgres
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: nefelibata_development
+  host: <%= ENV.fetch('DB_HOST', 'localhost') %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: nefelibata_test
+  host: <%= ENV.fetch('DB_HOST', 'localhost') %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: postgresql
+  encoding: utf8
+  database: nefelibata_production
+  host: <%= ENV['DB_HOST'] %>
+  user: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 5
+  timeout: 5000
