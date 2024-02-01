@@ -6,51 +6,63 @@ Clone the repository
 
 ### With Docker
 
-Build images
+#### Build images
 
 `$ docker-compose build`
 
-Install deps
+#### Install deps
 
 `$ docker-compose run api bundle install` 
 
-Run db setup
+#### Run db setup
 
 `$ docker-compose run api rake db:setup`
 
-Start server
+#### Start server
 
 `$ docker-compose up`
 
 The API will be available at [http://localhost:3000](http://localhost:3000)
 
-Testing
+#### Testing
 
 `$ docker-compose run api rake test`
+
+#### Analyzing transactions data to have better insights
+
+`$ docker-compose run api rake analyze:[by_user|by_merchant|by_card_number|by_device]` 
+
+It will write a file with result in `./tmp` folder
+
+#### Testing the performance of scorer [WIP]
+
+`$ docker-compose run api rake analyze:scorer_v1`
+
+It will analyze each Transaction as if it were made at `transaction_date` (considering only transactions before it) and compare Scorer results with `has_cbk` trying to check if it have bad or good predictions.
 
 ### Without Docker
 
 Install Ruby 3.2.3 using your prefered version controller
 
-Install budler gem
+#### Install budler gem
 
 `$ gem install bundler -v 2.4 --no-document`
 
-Install deps
+#### Install deps
 
 `$ bundle install` 
 
-Run db setup
+#### Run db setup
 
 `$ rake db:setup`
 
-Start server
+#### Start server
 
 `rails s -p 3000 -b '0.0.0.0'`
 
 The API will be available at [http://localhost:3000](http://localhost:3000)
 
-Testing
+#### Testing
 
 `$ rake test`
 
@@ -108,7 +120,7 @@ curl --location 'http://localhost:3000/v1/analyze' \
 Using this csv with hypothetical transactional data, imagine that you are trying to understand if there is any kind of suspicious behavior.
 
 1. Analyze the data provided and present your conclusions (consider that all transactions are made using a mobile device).
-   > There are Users, Cards and even Merchants with more than 90% (some with 100%) of transactions with chargeback. This is very suspicious and should be considered in a score based analysis.
+   > There are Users, Cards and even Merchants (see [Analyzing transactions data to have better insights](#analyzing-transactions-data-to-have-better-insights) section above) with more than 90% (some with 100%) of transactions with chargeback. This is very suspicious and should be considered in a score based analysis.
 2. In addition to the spreadsheet data, what other data would you look at to try to find patterns of possible frauds?
    > Location, billing information, document numbers like ID or CPF and also Phone number.
 
